@@ -1,0 +1,13 @@
+
+.cover{
+    margin-top: 100px;
+}
+
+.message { 
+    display: block!important;
+    font-size : 16px!important;
+}
+
+.hide{
+    display: none;
+}

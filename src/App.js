@@ -1,26 +1,20 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {BrowserRouter, Switch, Route, Link} from 'react-router-dom'
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Form from '../src/components/Form/Form'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>Hello</p>
-        </header>
+      <BrowserRouter>
+        <Switch>
+        <Route exact path='/' 
+        render={()=><div style={{margin : '200px'}}><h1>Welcome to Sample</h1><Link style={{fontSize : '30px'}} to='/user-form'>Go to Form</Link></div>} />
+        <Route exact path='/user-form' component={Form} />
+        </Switch>
+      </BrowserRouter>
       </div>
     );
   }
