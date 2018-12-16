@@ -1,29 +1,45 @@
 
-import React from 'react'
+import React, {Component} from 'react'
 import './Input.css'
 
-const Input = (props)=>{
+class Input extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            value : ''
+        }
+    }
+
+    render(){
 
     var inputElement = null;
-    switch(props.elementType){
+    switch(this.props.elementType){
         case 'input':
-            inputElement = <input type= {props.type} onBlur={(event) => props.onChange(event, props.id)} className="form-control" id={props.id} placeholder={props.placeholder}/>
+            inputElement = <input 
+            type= {this.props.type}  
+            onBlur={(event) => this.props.onChange(event, this.props.id)} 
+            defaultValue = {this.state.value}
+            className="form-control" 
+            id={this.props.id} 
+            placeholder={this.props.placeholder}/>
         break
         case 'date' : 
-            inputElement = <input type={props.type} className="form-control-range" id={props.id}/>
+            inputElement = <input type={this.props.type} className="form-control-range" id={this.props.id}/>
         
         break
+        default :
     }
 
     // console.log(props.isValid)
     return (
         <div className="form-group">
-        <label className='label' htmlFor={props.id}>{props.label}</label>
+        <label className='label' htmlFor={this.props.id}>{this.props.label}</label>
         {inputElement}
-        {!props.isValid && props.touched && <span className="invalid-feedback" style={{display : 'inline'}}>{'!!! '+ props.message}</span>}
+        {!this.props.isValid && this.props.touched && <span className="invalid-feedback" style={{display : 'inline'}}>{'!!! '+ this.props.message}</span>}
         </div>
     )
     
+    }
 }
 
-export default Input;
+export default Input

@@ -65,80 +65,148 @@ class Form extends Component{
                     }
                 }
             },
+
+            //message for user on invalid input,
+            //successfull submission and
+            //duplicate user
             message : '',
+
+            //change when data is sent
             sentStatus : false
+
         }
     }
 
     formChangeHandler = (event, element)=>{
-        
 
+        //fetching the value from input feild,
+        //performing validation for evry value
+        // updating state accordingly 
         var formElements = {...this.state.form}
         var felidElement = formElements[element]
         felidElement.value = event.target.value
         var {isValid, message} = validateInputFeild(felidElement.validations,felidElement.value)
         felidElement.validations.isValid = isValid
         felidElement.validations.validationFailMessage = message
-        felidElement.touched = true
-        
+        felidElement.touched = true        
+        this.setState({[formElements] : felidElement, message : "" })   
 
-        
-        this.setState({[formElements] : element })
     }
-
+    
     formSumbitHandler = (event)=>{
         event.preventDefault()
-        var isFormValid = false
-        var form = this.state.form
-        var keyCheck = []
+        
+        var form = {...this.state.form}
         var data = {}
+        var isFormValid = true
         for(var key in form){
             var feild = {...form[key]}
-            var validation = {...feild.validations}
+
+            //preparing obj to be sent on request
             data[key] = feild.value
-            keyCheck.push({key : key, isValid : validation.isValid})
-        }
-        
-        for(var i = 0; i < keyCheck.length ; i++){
-            
-            if(keyCheck[i].isValid){
-                isFormValid = true;
-            }else{
-                isFormValid = false;
-                break
+
+            //checking validity for overall form
+            var validation = {...feild.validations}
+            if(!validation.isValid){
+                isFormValid = validation.isValid
             }
         }
-        if(isFormValid){
-            //send request to server
-            console.log(data)
             console.log(isFormValid)
+
+        if(isFormValid){
+            event.target.reset();
+            //send request to server form is valid
+            console.log(data)
             API.post('/user-form',data)
             .then((response)=>{
                 var data = response.data
-                console.log(response)
                 if(response.status === 200 && response.statusText === 'OK'){
                     this.setState({message : data.message, sentStatus : true})
                 }else{
-
                     this.setState({message : data.message})
                 }
-
             })
             .catch((error)=>{
                 console.log(error)
             })
+        }else{
+
+            //if any of the feild is empty and user
+            //force to submit then send this message
+            this.setState({message : 'Invalid Details'})
         }
-        // console.log(form)
+        
+    
     }
 
 
+    // resetForm = ()=>{
+    //             var resetForm = {
+    //                 name : {
+    //                     elementType : 'input',
+    //                     type: 'text',
+    //                     placeholder : 'Enter Name',
+    //                     label : 'Name',
+    //                     value : '',
+    //                     validations : {
+    //                         validationFailMessage : '',
+    //                         isValid : false,
+    //                         required : true,
+    //                         type : 'name'
+    //                     }
+    //                 },
+    //                 email : {
+    //                     elementType : 'input',
+    //                     type: 'email',
+    //                     placeholder : 'e.g. : abc@mail.com',
+    //                     value : '',
+    //                     label : 'Email',
+    //                     validations : {
+    //                         validationFailMessage : '',
+    //                         isValid : false,
+    //                         required : true,
+    //                         type : 'email'
+    //                     }
+    //                 },
+    //                 dob : {
+    //                     elementType : 'input',
+    //                     type: 'date',
+    //                     placeholder : 'yyyy-mm-dd',
+    //                     value : '',
+    //                     label : 'D.O.B.',
+    //                     validations : {
+    //                         validationFailMessage : '',
+    //                         isValid : false,
+    //                         required : true,
+    //                         type : 'dob'
+    //                     }
+    //                 },
+    //                 phoneNumber:{
+    //                     elementType : 'input',
+    //                     type: 'text',
+    //                     placeholder : 'e.g. : 9876543210',
+    //                     value : '',
+    //                     label : 'Phone Number',
+    //                     touched : false,
+    //                     validations : {
+    //                         validationFailMessage : '',
+    //                         isValid : false,
+    //                         required : true,
+    //                         type : 'phoneNumber'
+    //                     }
+    //                 }
+    //             }
+    //         this.setState({form : resetForm},()=>{console.log(this.state.form)})
+    //         console.log(this.state.form)
+    // }
     render(){
          
         var form = this.state.form
         var message =this.state.message
-        var status = this.state.sentStatus
         var alertClass = ''
         alertClass = 'alert-success alert message'
+
+        //hide, if no message
         if(message.length === 0){
             alertClass = 'hide'
         }
@@ -161,12 +229,11 @@ class Form extends Component{
                 type={formElement.value.type} 
                 onChange={this.formChangeHandler} 
                 isValid={formElement.value.validations.isValid} 
-                value={formElement.value.value}
                 touched={formElement.value.touched}
                 message={formElement.value.validations.validationFailMessage}
                 placeholder={formElement.value.placeholder}></Input>
             })}
-            <Button className='primary' type='Submit'>SUBMIT</Button>
+            <Button className='primary' type='Submit'>SUBMIT</Button> 
             </form>
             </div>
         )
