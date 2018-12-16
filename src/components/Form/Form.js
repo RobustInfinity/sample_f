@@ -134,71 +134,9 @@ class Form extends Component{
             //if any of the feild is empty and user
             //force to submit then send this message
             this.setState({message : 'Invalid Details'})
-        }
-        
-    
+        }    
     }
 
-
-    // resetForm = ()=>{
-    //             var resetForm = {
-    //                 name : {
-    //                     elementType : 'input',
-    //                     type: 'text',
-    //                     placeholder : 'Enter Name',
-    //                     label : 'Name',
-    //                     value : '',
-    //                     validations : {
-    //                         validationFailMessage : '',
-    //                         isValid : false,
-    //                         required : true,
-    //                         type : 'name'
-    //                     }
-    //                 },
-    //                 email : {
-    //                     elementType : 'input',
-    //                     type: 'email',
-    //                     placeholder : 'e.g. : abc@mail.com',
-    //                     value : '',
-    //                     label : 'Email',
-    //                     validations : {
-    //                         validationFailMessage : '',
-    //                         isValid : false,
-    //                         required : true,
-    //                         type : 'email'
-    //                     }
-    //                 },
-    //                 dob : {
-    //                     elementType : 'input',
-    //                     type: 'date',
-    //                     placeholder : 'yyyy-mm-dd',
-    //                     value : '',
-    //                     label : 'D.O.B.',
-    //                     validations : {
-    //                         validationFailMessage : '',
-    //                         isValid : false,
-    //                         required : true,
-    //                         type : 'dob'
-    //                     }
-    //                 },
-    //                 phoneNumber:{
-    //                     elementType : 'input',
-    //                     type: 'text',
-    //                     placeholder : 'e.g. : 9876543210',
-    //                     value : '',
-    //                     label : 'Phone Number',
-    //                     touched : false,
-    //                     validations : {
-    //                         validationFailMessage : '',
-    //                         isValid : false,
-    //                         required : true,
-    //                         type : 'phoneNumber'
-    //                     }
-    //                 }
-    //             }
-    //         this.setState({form : resetForm},()=>{console.log(this.state.form)})
-    //         console.log(this.state.form)
-    // }
     render(){
          
         var form = this.state.form
